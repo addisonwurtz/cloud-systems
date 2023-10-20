@@ -7,7 +7,7 @@ class Sign(MethodView):
         """
         :return: form template for adding new quotes
         """
-        return render_template('sign.html')
+        return render_template('add_quote.html')
 
     def post(self):
         """
