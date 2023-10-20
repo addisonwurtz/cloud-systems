@@ -1,16 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Guestbook</h2>
+    <h2>Famous Quotes</h2>
 
-    <h3>Sign <a href="{{ url_for('sign') }}">here</a></h3>
-    <h3>View <a href="{{ url_for('view_entries') }}">previous entries</a></h3>
-    <h3>Entries</h3>
-    {% for entry in entries %}
-        <p class=entry>
-            {{ entry.name }} &lt;{{ entry.email }}&gt;
-	    <br>signed on {{ entry.signed_on }}<br>
-	    {{ entry.message }}
-        </p>
-    {% endfor %}
+    <h3>Add <a href="{{ url_for('sign') }}">new quote</a></h3>
+    <h3>View <a href="{{ url_for('view_entries') }}">all quotes</a></h3>
 
 {% endblock %}

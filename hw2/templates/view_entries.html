@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h2>Guestbook Entries</h2>
-    <h3>Home <a href="{{ url_for('index') }}"></a></h3>
+    <h3><a href="{{ url_for('index') }}">Home</a></h3>
+    <h2>Famous Quotes:</h2>
     {% for entry in entries %}
         <p class=entry>
             {{ entry.name }} &lt;{{ entry.email }}&gt;
