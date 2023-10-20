@@ -16,7 +16,9 @@ This can be created with the following SQL (see bottom of this file):
 from datetime import date
 from .Model import Model
 import sqlite3
-DB_FILE = 'entries.db'    # file for our Database
+
+DB_FILE = 'entries.db'  # file for our Database
+
 
 class model(Model):
     def __init__(self):
@@ -24,35 +26,37 @@ class model(Model):
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
         try:
-            cursor.execute("select count(rowid) from guestbook")
+            cursor.execute("select count(rowid) from quotebook")
         except sqlite3.OperationalError:
-            cursor.execute("create table guestbook (name text, email text, signed_on date, message text)")
+            cursor.execute("create table quotebook (quote text, attribution text, rating number, date_added date)")
         cursor.close()
 
     def select(self):
         """
         Gets all rows from the database
-        Each row contains: name, email, date, message
+        Each row contains: quote, attribution, rating, date_added
         :return: List of lists containing all rows of database
         """
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM guestbook")
+        cursor.execute("SELECT * FROM quotebook")
         return cursor.fetchall()
 
-    def insert(self, name, email, message):
+    def insert(self, quote, attribution, rating):
         """
         Inserts entry into database
-        :param name: String
-        :param email: String
-        :param message: String
+        :param quote: String
+        :param attribution: String
+        :param rating: float
         :return: True
         :raises: Database errors on connection and insertion
         """
-        params = {'name':name, 'email':email, 'date':date.today(), 'message':message}
+        params = {'quote': quote, 'attribution': attribution, 'rating': rating, 'date_added': date.today()}
         connection = sqlite3.connect(DB_FILE)
         cursor = connection.cursor()
-        cursor.execute("insert into guestbook (name, email, signed_on, message) VALUES (:name, :email, :date, :message)", params)
+        cursor.execute(
+            "insert into quotebook (quote, attribution, rating, date_added) VALUES (:quote, :attribution, :rating, :date_added)",
+            params)
 
         connection.commit()
         cursor.close()

@@ -4,9 +4,10 @@
     <h2>Famous Quotes:</h2>
     {% for entry in entries %}
         <p class=entry>
-            {{ entry.name }} &lt;{{ entry.email }}&gt;
-	    <br>signed on {{ entry.signed_on }}<br>
-	    {{ entry.message }}
+        {{ entry.quote }} <br>
+        <br> Attribution: {{ entry.attribution }}
+	    <br>Rating: {{ entry.rating }}/5<br>
+	    Date Added: {{ entry.date_added}}
         </p>
     {% endfor %}
 {% endblock %}
