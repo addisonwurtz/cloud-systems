@@ -1,3 +1,11 @@
 env/
 *.pyc
 __pycache__/
+/venv
+/.idea/.gitignore
+/.idea/Internet, Web, and Cloud Systems.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
