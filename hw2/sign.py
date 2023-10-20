@@ -4,6 +4,9 @@ import gbmodel
 
 class Sign(MethodView):
     def get(self):
+        """
+        :return: form template for adding new quotes
+        """
         return render_template('sign.html')
 
     def post(self):
