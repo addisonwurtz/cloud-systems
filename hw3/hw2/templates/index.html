@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>Famous Quotes</h2>
+
+    <h3>Add <a href="{{ url_for('add_quote') }}">new quote</a></h3>
+    <h3>View <a href="{{ url_for('view_entries') }}">all quotes</a></h3>
+    <br><h3>Famous Quotees: </h3>
+    {% for entry in entries %}
+        <p class=entry>
+        <br>{{ entry.attribution }}
+        </p>
+    {% endfor %}
+{% endblock %}
