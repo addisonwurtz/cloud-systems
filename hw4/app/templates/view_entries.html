@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3><a href="{{ url_for('index') }}">Home</a></h3>
+    <h2>Famous Quotes:</h2>
+    {% for entry in entries %}
+        <p class=entry>
+        {{ entry.quote }} <br>
+        <br> Attribution: {{ entry.attribution }}
+	    <br>Rating: {{ entry.rating }}/5<br>
+	    Date Added: {{ entry.date_added}}
+        </p>
+    {% endfor %}
+{% endblock %}
