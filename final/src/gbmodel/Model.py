@@ -6,7 +6,7 @@ class Model():
         """
         pass
 
-    def insert(self, first_name, last_name, orbit, contact_history=[]):
+    def insert(self, first_name, last_name, orbit, contact_history):
         """
         Inserts entry into database
         :param first_name: String

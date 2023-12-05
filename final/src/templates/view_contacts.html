@@ -6,7 +6,7 @@
         <p class=contact>
         {{ contact.first_name}} {{contact.last_name}} <br>
         <br> Orbit: {{ contact.orbit }}
-	    <br> You have talked to {{ contact.first_name }} {{ len(contact.history) }} since {{ contact.date_added}}<br>
+	    <br> You have talked to {{ contact.first_name }} {{ contact.contact_history|length }} times since {{ contact.date_added}}<br>
         </p>
     {% endfor %}
 {% endblock %}
