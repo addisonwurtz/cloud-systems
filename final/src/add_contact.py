@@ -2,12 +2,12 @@ from flask import redirect, request, url_for, render_template
 from flask.views import MethodView
 import gbmodel
 
-class Sign(MethodView):
+class Add(MethodView):
     def get(self):
         """
-        :return: form template for adding new quotes
+        :return: form template for adding new contacts
         """
-        return render_template('add_quote.html')
+        return render_template('add_contact.html')
 
     def post(self):
         """
@@ -15,5 +15,5 @@ class Sign(MethodView):
         Redirect to index when completed.
         """
         model = gbmodel.get_model()
-        model.insert(request.form['quote'], request.form['attribution'], request.form['rating'])
+        model.insert(request.form['first_name'], request.form['last_name'], request.form['orbit'])
         return redirect(url_for('index'))

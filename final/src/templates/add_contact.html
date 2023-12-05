@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3><a href="{{ url_for('index') }}">Home</a></h3>
+    <h2>Add New Contact:</h2>
+    <form action="{{ url_for('add_contact') }}" method=post>
+    <p class="heading">First Name: <input type=text name=first_name></p>
+	<p class="heading">Last Name: <input type=text name=last_name></p>
+	<p class="heading">Orbit: </p>
+        <fieldset>
+            <legend>Select a contact frequency</legend>
+            <div>
+                <input type="radio" id="daily" name="orbit" value="daily" />
+                <label for="daily">Daily</label>
+            </div>
+            <div>
+                <input type="radio" id="weekly" name="orbit" value="weekly" />
+                <label for="weekly">Weekly</label>
+            </div>
+            <div>
+                <input type="radio" id="monthly" name="orbit" value="monthly">
+                <label for="monthly">Monthly</label>
+            </div>
+            <div>
+                <input type="radio" id="quarterly" name="orbit" value="quarterly">
+                <label for="quarterly">Quarterly</label>
+            </div>
+            <div>
+                <input type="radio" id="semi-annually" name="orbit" value="semi_annually">
+                <label for="semi-annually">Semi-Annually</label>
+            </div>
+            <div>
+                <input type="radio" id="annually" name="orbit" value="annually">
+                <label for="annually">Annually</label>
+            </div>
+        </fieldset>
+
+	<p><input type=submit value=Add></p>
+    </form>
+{% endblock %}

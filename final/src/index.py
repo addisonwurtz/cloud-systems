@@ -9,5 +9,5 @@ class Index(MethodView):
         :return: List of dicts of all quote entries in the database
         """
         model = gbmodel.get_model()
-        entries = [dict(quote=row[0], attribution=row[1], rating=row[2], date_added=row[3] ) for row in model.select()]
-        return render_template('index.html',entries=entries)
+        contacts = [dict(first_name=row[0], last_name=row[1], orbit=row[2], contact_history=row[3], date_added=row[4]) for row in model.select()]
+        return render_template('index.html', contacts=contacts)

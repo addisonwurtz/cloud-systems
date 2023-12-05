@@ -6,12 +6,13 @@ class Model():
         """
         pass
 
-    def insert(self, quote, attribution, rating):
+    def insert(self, first_name, last_name, orbit, contact_history=[]):
         """
         Inserts entry into database
-        :param quote: String
-        :param attribution: String
-        :param rating: int
+        :param first_name: String
+        :param last_name: String
+        :param orbit: String
+        :param contact_history: list
         :return: none
         :raises: Database errors on connection and insertion
         """

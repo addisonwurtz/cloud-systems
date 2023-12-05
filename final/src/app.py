@@ -3,9 +3,10 @@ A simple guestbook flask app.
 """
 import flask
 from flask.views import MethodView
+
+from final.src.add_contact import Add
+from final.src.view_contacts import ViewContacts
 from index import Index
-from add_quote import Sign
-from view_entries import ViewEntries
 
 app = flask.Flask(__name__)  # our Flask app
 
@@ -13,12 +14,12 @@ app.add_url_rule('/',
                  view_func=Index.as_view('index'),
                  methods=["GET"])
 
-app.add_url_rule('/add_quote',
-                 view_func=Sign.as_view('add_quote'),
+app.add_url_rule('/add_contact',
+                 view_func=Add.as_view('add_contact'),
                  methods=['GET', 'POST'])
 
-app.add_url_rule('/view_entries',
-                 view_func=ViewEntries.as_view('view_entries'),
+app.add_url_rule('/view_contacts',
+                 view_func=ViewContacts.as_view('view_contacts'),
                  methods=["GET"])
 
 if __name__ == '__main__':
