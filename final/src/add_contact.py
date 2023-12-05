@@ -15,5 +15,6 @@ class Add(MethodView):
         Redirect to index when completed.
         """
         model = gbmodel.get_model()
-        model.insert(request.form['first_name'], request.form['last_name'], request.form['orbit'])
+        contact_history = []
+        model.insert(request.form['first_name'], request.form['last_name'], request.form['orbit'], contact_history)
         return redirect(url_for('index'))
