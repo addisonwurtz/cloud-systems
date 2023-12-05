@@ -4,8 +4,8 @@ A simple guestbook flask app.
 import flask
 from flask.views import MethodView
 
-from final.src.add_contact import Add
-from final.src.view_contacts import ViewContacts
+from add_contact import Add
+from view_contacts import ViewContacts
 from index import Index
 
 app = flask.Flask(__name__)  # our Flask app
