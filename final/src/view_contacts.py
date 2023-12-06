@@ -16,8 +16,8 @@ class ViewContacts(MethodView):
             google = OAuth2Session(client_id, token=session['oauth_token'])
             userinfo = google.get('https://www.googleapis.com/oauth2/v3/userinfo').json()
             model = gbmodel.get_model()
-            contacts = [dict(first_name=row[0], last_name=row[1], orbit=row[2], contact_history= row[3], date_added=row[4] ) for row in model.select()]
-            return render_template('view_contacts.html', contacts=contacts)
+            contacts = [dict(first_name=row[0], last_name=row[1], orbit=row[2], contact_history=row[3], date_added=row[4] ) for row in model.select()]
+            return render_template('view_contacts.html', contacts=contacts, name=userinfo['name'], email=userinfo['email'], picture=userinfo['picture'])
         else:
         # Redirect to the identity provider and ask the identity provider to return the client
         #   back to /callback route with the code
