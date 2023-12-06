@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
     <h3><a href="{{ url_for('index') }}">Home</a></h3>
+    <img src="{{ picture }}" width=25px height=25px referrerpolicy="no-referrer">
+    {{ name }} &lt;{{ email }}&gt;
     <h2>Add New Contact:</h2>
     <form action="{{ url_for('add_contact') }}" method=post>
     <p class="heading">First Name: <input type=text name=first_name></p>
