@@ -19,8 +19,20 @@ class Tasks(MethodView):
         #   the signing page with it
         if 'oauth_token' in session:
             google = OAuth2Session(client_id, token=session['oauth_token'])
-            usertasks = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
-            tasks = str(usertasks)
+            tasklists = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
+            # Get list of tasklists from response object
+            items = tasklists['items']
+            orbits_list = None
+            # Check for Orbits Task list
+            for list in items:
+                if "Orbits" == list['title']:
+                    orbits_list = list
+            if orbits_list is None:
+                list = {"title": "Orbits"}
+                orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=list).json()
+
+            tasks = str(orbits_list)
+            
             return render_template('view_tasks.html', tasks=tasks)
         else:
         # Redirect to the identity provider and ask the identity provider to return the client
