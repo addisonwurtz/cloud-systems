@@ -18,7 +18,8 @@ class Add(MethodView):
             google = OAuth2Session(client_id,
                     redirect_uri = redirect_callback,
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
-                            'https://www.googleapis.com/auth/userinfo.profile'
+                            'https://www.googleapis.com/auth/userinfo.profile ' +
+                            'https://www.googleapis.com/auth/tasks'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 

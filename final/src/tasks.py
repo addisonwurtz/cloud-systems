@@ -20,15 +20,16 @@ class Tasks(MethodView):
         if 'oauth_token' in session:
             google = OAuth2Session(client_id, token=session['oauth_token'])
             usertasks = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
-            tasks = usertasks.items
-            return render_template('view_tasks.html', tasks=tasks)        
+            tasks = str(usertasks)
+            return render_template('view_tasks.html', tasks=tasks)
         else:
         # Redirect to the identity provider and ask the identity provider to return the client
         #   back to /callback route with the code
             google = OAuth2Session(client_id,
                     redirect_uri = redirect_callback,
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
-                            'https://www.googleapis.com/auth/userinfo.profile'
+                            'https://www.googleapis.com/auth/userinfo.profile ' +
+                            'https://www.googleapis.com/auth/tasks'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 
