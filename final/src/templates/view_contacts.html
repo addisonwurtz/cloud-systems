@@ -9,11 +9,4 @@
 	    <br> You have talked to {{ contact.first_name }} {{ contact.contact_history|length }} times since {{ contact.date_added}}<br>
         </p>
     {% endfor %}
-    {% for task in tasks %}
-    <p class=task>
-    {{ contact.first_name}} {{contact.last_name}} <br>
-    <br> Orbit: {{ contact.orbit }}
-    <br> You have talked to {{ contact.first_name }} {{ contact.contact_history|length }} times since {{ contact.date_added}}<br>
-    </p>
-{% endfor %}
 {% endblock %}

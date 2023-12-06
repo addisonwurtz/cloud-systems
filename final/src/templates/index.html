@@ -3,6 +3,7 @@
     <h2>Orbits -- Tasked to Keep In Touch</h2>
     <h3>Add <a href="{{ url_for('add_contact') }}">Contact</a> | <a href="{{ url_for('logout') }}"> Logout</a></h3>
     <h3>View <a href="{{ url_for('view_contacts') }}">Contacts</a></h3>
+    <h3>View <a href="{{ url_for('view_tasks') }}">Tasks</a></h3>
     <br><h3>Contacts:</h3>
     {% for contact in contacts %}
         <p class=contact>
