@@ -45,7 +45,7 @@ class model(Model):
     def select(self):
         """
         Gets all entries from the database
-        Each entry contains: quote, attribution, rating, date_added
+        Each entry contains: user_email, first_name, last_name, orbit, contact_history, and date_added
         :return: List of lists containing all rows of database
         """
         query = self.client.query(kind='Contact')
