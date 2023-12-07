@@ -2,13 +2,12 @@
 {% block content %}
     <h3><a href="{{ url_for('index') }}">Home</a></h3>
     <h2>Tasks:</h2>
-    <h3> {{ tasks }} </h3>
     {% for task in tasks %}
     <h3>{{ task.title }}</h3>
     <p class=task>
     <br> Notes: 
     <br>{{ task.notes }}
-    <br> Status: {task.status}
+    <br> Status: {{ task.status }}
     <br>
     </p>
 {% endfor %}
