@@ -31,9 +31,11 @@ class Tasks(MethodView):
                 list = {"title": "Orbits"}
                 orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=list).json()
 
-            tasks = str(orbits_list)
+            # Get tasks from Orbits list
+            list_id = orbits_list["id"]
+            tasks = google.get(f'https://tasks.googleapis.com/tasks/v1/lists/{list_id}/tasks?showCompleted=true&showHidden=true').json()
             
-            return render_template('view_tasks.html', tasks=tasks)
+            return render_template('view_tasks.html', tasks=tasks["items"], tasklist=str(orbits_list))
         else:
         # Redirect to the identity provider and ask the identity provider to return the client
         #   back to /callback route with the code
