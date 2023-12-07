@@ -3,9 +3,8 @@ from requests_oauthlib import OAuth2Session
 from flask.views import MethodView
 import gbmodel
 from oauth_config import client_id, authorization_base_url, redirect_callback, palm_api_key
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime, timezone
 import json
-import google.generativeai as palm
 import os
 import requests
 
@@ -78,45 +77,46 @@ class Add(MethodView):
                 list = {"title": "Orbits"}
                 orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=list).json()
 
-            # Add new task based on contact info
-            orbit = request.form['orbit']
-            if orbit == "daily":
-                delta = timedelta(days=1)
-            elif orbit == "weekly":
-                delta = timedelta(weeks=1)
-            elif orbit == "monthly":
-                    delta = timedelta(days=30)
-            elif orbit == "quarterly":
-                delta = timedelta(weeks=12)
-            elif orbit == "semi_annually":
-                delta = timedelta(weeks=24)
-            elif orbit == "annually":
-                delta = timedelta(weeks = 56)
-            else:
-               delta = timedelta(days=0)
 
+            # Add new task based on contact info
             title = str(request.form["first_name"]) + ' ' + str(request.form["last_name"])
             message = self.conversation_starter(request.form["first_name"], request.form["orbit"])
-            #due_date = str(date.today() + delta)
+            due_date = self.get_due_date(request.form['orbit'])
+
+            # Create request body
             task_info = {
                 "title": f"{title}",
-                #"due": f"{due_date}",
+                "due": f"{due_date}",
                 "notes": f"{message}"
             }
 
-            
             task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
 
             return redirect(url_for('index'))
         else:
             return redirect(url_for('add_contact'))
 
+
+    def get_due_date(self, orbit):
+        if orbit == "daily":
+            delta = timedelta(days=1)
+        elif orbit == "weekly":
+            delta = timedelta(weeks=1)
+        elif orbit == "monthly":
+                delta = timedelta(days=30)
+        elif orbit == "quarterly":
+            delta = timedelta(weeks=12)
+        elif orbit == "semi_annually":
+            delta = timedelta(weeks=24)
+        elif orbit == "annually":
+            delta = timedelta(weeks = 56)
+        else:
+           delta = timedelta(days=0)
+        
+        due_date = datetime.now(timezone.utc).astimezone() + delta
+        return due_date.isoformat()
+
+
     def conversation_starter(self, first_name, orbit):
-      #  body = {
-      #"prompt": {"messages": [{"content":f"Please create conversation starter for me to send to my friend, {first_name}. We talk {orbit}, and the subject should be appropriate for that amount of time."}]},
-      #"temperature": 0.5, 
-      #"candidateCount": 1}
-        #google = OAuth2Session(client_id, token=session['oauth_token'])
-        #response = google.post(f'https://generativelanguage.googleapis.com/v1beta3/model=models/chat-bison-001:generateMessage').json()
         response = requests.get('https://dog-api.kinduff.com/api/facts').json()
         return response
