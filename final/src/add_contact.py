@@ -91,17 +91,11 @@ class Add(MethodView):
             else:
                delta = timedelta(days=0)
 
-#            task_info = {
-#               "title": str(request.form['first_name']),
-#              "due": str(date.today() + delta),
-#             "notes": "Time to say hello!"
-#        }
-            #task_info = '{"title":"' + str(request.form["first_name"]) + ' ' + str(request.form["last_name"]) + '","due":"' + str(date.today() + delta) + '","notes":"Time to say hello!"}'
-            #title = request.form['first_name']
-            #date = date.today() + delta
-            title = "Desperate Attempt"
+            title = str(request.form["first_name"]) + ' ' + str(request.form["last_name"])
+            #due_date = str(date.today() + delta)
             task_info = {
                 "title": f"{title}",
+                #"due": f"{due_date}",
                 "notes": "Time to say hello!"
             }
 
