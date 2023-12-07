@@ -119,4 +119,4 @@ class Add(MethodView):
 
     def conversation_starter(self, first_name, orbit):
         response = requests.get('https://dog-api.kinduff.com/api/facts').json()
-        return response
+        return response['facts'][0]
