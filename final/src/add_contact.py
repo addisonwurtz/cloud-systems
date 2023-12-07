@@ -39,12 +39,26 @@ class Add(MethodView):
         if 'oauth_token' in session:
         # Insert based on form fields only if an OAuth2 token is present to ensure
         #   values in all fields exist
+
+            # get database info
             model = gbmodel.get_model()
+            contacts = [dict(user_email=row[0], first_name=row[1], last_name=row[2], orbit=row[3], contact_history=row[4]) for row in model.select()]
+            # Get user info
+            google = OAuth2Session(client_id, token=session['oauth_token'])
+            userinfo = google.get('https://www.googleapis.com/oauth2/v3/userinfo').json()
+
+            # Check if contact is already in database
+            # TODO
+            for contact in contacts:
+                if userinfo["email"] == contact["user_email"] and request.form['first_name'] == contact['first_name'] and request.form['last_name'] == contact['last_name']:
+                    # TODO update task/contact?
+                    return redirect(url_for('view_contacts'))
+
+            # Add new contact to database
             contact_history = []
-            model.insert(request.form['first_name'], request.form['last_name'], request.form['orbit'], contact_history)
+            model.insert(userinfo["email"], request.form['first_name'], request.form['last_name'], request.form['orbit'], contact_history)
 
             # Check for Orbits task list, create if necessary
-            google = OAuth2Session(client_id, token=session['oauth_token'])
             tasklists = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
             
             # Get list of tasklists from response object
@@ -77,12 +91,16 @@ class Add(MethodView):
             else:
                delta = timedelta(days=0)
 
-            task_json = {
-                "title": "\"" + str(request.form['first_name']) + str(request.form['last_name']) + "\"",
-                "due": "\"" + str((date.today() + delta)) + "\"",
+            #task_info = {}
+            #task_info["title"]= str(request.form['first_name']) + str(request.form['last_name'])
+            #task_info["due"] = str((date.today() + delta))
+            #task_info["notes"] = "Time to say hello!"
+            task_info = {
+                "title": f"New Task {request.form['first_name']} {request.form['last_name']}",
+                "due": f"{(date.today() + delta)}",
                 "notes": "Time to say hello!"
             }
-            task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_json)
+            task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
 
             return redirect(url_for('index'))
         else:
