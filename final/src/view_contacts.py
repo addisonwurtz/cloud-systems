@@ -3,7 +3,6 @@ from requests_oauthlib import OAuth2Session
 from flask import render_template
 from flask.views import MethodView
 import gbmodel
-from tasks import Tasks
 from oauth_config import client_id, authorization_base_url, redirect_callback
 
 class ViewContacts(MethodView):

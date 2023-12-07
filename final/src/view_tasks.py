@@ -1,13 +1,13 @@
-import os.path
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import Flow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+#import os.path
+#from google.auth.transport.requests import Request
+#from google.oauth2.credentials import Credentials
+#from google_auth_oauthlib.flow import Flow
+#from googleapiclient.discovery import build
+#from googleapiclient.errors import HttpError
 from flask import redirect, request, url_for, render_template, session
 from requests_oauthlib import OAuth2Session
 from flask.views import MethodView
-import gbmodel
+#import gbmodel
 from oauth_config import client_id, authorization_base_url, redirect_callback
 
 class ViewTasks(MethodView):
