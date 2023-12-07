@@ -119,4 +119,4 @@ class Add(MethodView):
         #google = OAuth2Session(client_id, token=session['oauth_token'])
         #response = google.post(f'https://generativelanguage.googleapis.com/v1beta3/model=models/chat-bison-001:generateMessage').json()
         response = requests.get('https://dog-api.kinduff.com/api/facts').json()
-        return response["body"]
+        return response
