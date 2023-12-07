@@ -24,7 +24,6 @@ class Add(MethodView):
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
                             'https://www.googleapis.com/auth/userinfo.profile ' +
                             'https://www.googleapis.com/auth/tasks'
-                            #'https://www.googleapis.com/auth/generative-language'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 
@@ -51,7 +50,6 @@ class Add(MethodView):
             userinfo = google.get('https://www.googleapis.com/oauth2/v3/userinfo').json()
 
             # Check if contact is already in database
-            # TODO
             for contact in contacts:
                 if userinfo["email"] == contact["user_email"] and request.form['first_name'] == contact['first_name'] and request.form['last_name'] == contact['last_name']:
                     # TODO update task/contact?
@@ -77,24 +75,27 @@ class Add(MethodView):
                 list = {"title": "Orbits"}
                 orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=list).json()
 
-
-            # Add new task based on contact info
-            title = str(request.form["first_name"]) + ' ' + str(request.form["last_name"])
-            message = self.conversation_starter(request.form["first_name"], request.form["orbit"])
-            due_date = self.get_due_date(request.form['orbit'])
-
-            # Create request body
-            task_info = {
-                "title": f"{title}",
-                "due": f"{due_date}",
-                "notes": f"{message}"
-            }
-
+            task_info = get_task_json(request.form["first_name"], request.form["last_name"], request.form['orbit'])
             task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
 
             return redirect(url_for('index'))
         else:
             return redirect(url_for('add_contact'))
+
+
+    def get_task_json(first_name, last_name, orbit):
+        # Build task fields from contact info
+        title = str(request.form["first_name"]) + ' ' + str(request.form["last_name"])
+        message = self.conversation_starter(request.form["first_name"], request.form["orbit"])
+        due_date = self.get_due_date(request.form['orbit'])
+
+        # Create json request body
+        task_info = {
+            "title": f"{title}",
+            "due": f"{due_date}",
+            "notes": f"{message}"
+        }
+        return task_info
 
 
     def get_due_date(self, orbit):
