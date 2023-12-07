@@ -24,7 +24,7 @@ class ViewContacts(MethodView):
                      date_added=row[5]) for row in model.select() if row[0] == userinfo['email']]
 
             # compare contacts lists to orbits task list
-            self.update_contact(contacts, google)
+            self.update_contacts(contacts, google)
 
             return render_template('view_contacts.html', contacts=contacts, name=userinfo['name'],
                                    email=userinfo['email'], picture=userinfo['picture'])
