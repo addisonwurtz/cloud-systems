@@ -3,6 +3,7 @@ from requests_oauthlib import OAuth2Session
 from flask.views import MethodView
 import gbmodel
 from oauth_config import client_id, authorization_base_url, redirect_callback
+from datetime import date, timedelta
 
 class Add(MethodView):
     def get(self):
@@ -40,6 +41,48 @@ class Add(MethodView):
             model = gbmodel.get_model()
             contact_history = []
             model.insert(request.form['first_name'], request.form['last_name'], request.form['orbit'], contact_history)
+
+            # Check for Orbits task list, create if necessary
+            google = OAuth2Session(client_id, token=session['oauth_token'])
+            tasklists = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
+            
+            # Get list of tasklists from response object
+            items = tasklists['items']
+            orbits_list = None
+            
+            # Check for Orbits Task list
+            for list in items:
+                if "Orbits" == list['title']:
+                    orbits_list = list
+            # Create new list if orbits does not exist
+            if orbits_list is None:
+                list = {"title": "Orbits"}
+                orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=list).json()
+
+            # Add new task based on contact info
+            # orbit = request.form['orbit']
+            if orbit == "daily":
+                delta = timedelta(days=1)
+            elif orbit == "weekly":
+                delta = timedelta(weeks=1)
+            elif orbit == "monthly":
+                    delta = timedelta(days=30)
+            elif orbit == "quarterly":
+                delta = timedelta(weeks=12)
+            elif orbit == "semi_annually":
+                delta = timedelta(weeks=24)
+            elif orbit == "annually":
+                delta = timedelta(weeks = 56)
+            else:
+               delta = timedelta(days=0)
+
+            task_json = {
+                "title": str(request.form['first_name']) + str(request.form['last_name']),
+                "due": date.today + delta,
+                "notes": "Time to say hello!"
+            }
+            task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_json)
+
             return redirect(url_for('index'))
         else:
             return redirect(url_for('add_contact'))
