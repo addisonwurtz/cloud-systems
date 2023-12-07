@@ -33,7 +33,7 @@ class ViewTasks(MethodView):
 
             # Get tasks from Orbits list
             list_id = orbits_list["id"]
-            tasks = google.get(f'https://tasks.googleapis.com/tasks/v1/lists/{list_id}/tasks?showCompleted=true&showHidden=true').json()
+            tasks = google.get(f'https://tasks.googleapis.com/tasks/v1/lists/{list_id}/tasks?showCompleted=false&showHidden=false').json()
             
             return render_template('view_tasks.html', tasks=tasks["items"], tasklist=str(orbits_list))
         else:
