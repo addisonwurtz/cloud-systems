@@ -5,6 +5,7 @@ import gbmodel
 from oauth_config import client_id, authorization_base_url, redirect_callback
 from task_management import get_task_json
 
+
 class Add(MethodView):
     def get(self):
         # If client has an OAuth2 token, use it to get their information and render
@@ -50,8 +51,8 @@ class Add(MethodView):
 
             # Check if contact is already in database
             for contact in contacts:
-                if userinfo["email"] == contact["user_email"] and request.form['first_name'] == contact[
-                    'first_name'] and request.form['last_name'] == contact['last_name']:
+                if userinfo["email"] == contact["user_email"] and request.form['first_name'] == contact['first_name'] \
+                        and request.form['last_name'] == contact['last_name']:
                     # TODO update task/contact?
                     return redirect(url_for('view_contacts'))
 
@@ -77,7 +78,7 @@ class Add(MethodView):
                 orbits_list = google.post('https://tasks.googleapis.com/tasks/v1/users/@me/lists', json=tasklist).json()
 
             task_info = get_task_json(request.form["first_name"], request.form["last_name"], request.form['orbit'])
-            task = google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
+            google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
 
             return redirect(url_for('index'))
         else:
