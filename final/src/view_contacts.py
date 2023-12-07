@@ -63,13 +63,12 @@ class ViewContacts(MethodView):
                 f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks?showCompleted=true&showHidden=true').json()
             for contact in contacts:
                 in_progress = False
-                for task in tasks:
+                for task in tasks["items"]:
                     # match found
                     if str(contact["first_name"] + ' ' + contact["last_name"]) == task["title"]:
                         # if completed update contact history
                         if task["status"] != "completed":
                             in_progress = True
-                    if in_progress is False:
-                        task_info = get_task_json(contact["first_name"], contact["last_name"], contact["orbit"])
-                        google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks',
-                                    json=task_info)
+                if in_progress is False:
+                    task_info = get_task_json(contact["first_name"], contact["last_name"], contact["orbit"])
+                    google.post(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list["id"]}/tasks', json=task_info)
