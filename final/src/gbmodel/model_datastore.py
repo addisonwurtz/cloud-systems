@@ -25,7 +25,7 @@ def from_datastore(entity):
         [Entity{key: (kind, id), prop: val, ...}]
 
     This returns:
-        [ first_name, last_name, orbit, contact_history, date_added ]
+        [ user_email, first_name, last_name, orbit, contact_history, date_added ]
         where first_name, last_name, and orbit are Python strings
         where contact_history is a list of Python datetimes
         and where date_added is a Python datetime
@@ -34,7 +34,7 @@ def from_datastore(entity):
         return None
     if isinstance(entity, list):
         entity = entity.pop()
-    return [entity['first_name'], entity['last_name'], entity['orbit'], entity['contact_history'], entity['date_added']]
+    return [entity['user_email'], entity['first_name'], entity['last_name'], entity['orbit'], entity['contact_history'], entity['date_added']]
 
 
 class model(Model):
@@ -52,9 +52,10 @@ class model(Model):
         entities = list(map(from_datastore, query.fetch()))
         return entities
 
-    def insert(self, first_name, last_name, orbit, contact_history):
+    def insert(self, user_email, first_name, last_name, orbit, contact_history):
         """
         Inserts entry into database
+        :param user_email: String
         :param first_name: String
         :param last_name: String
         :param orbit: String
@@ -64,6 +65,7 @@ class model(Model):
         key = self.client.key('Contact')
         entry = datastore.Entity(key)
         entry.update( {
+            'user_email': user_email,
             'first_name': first_name,
             'last_name': last_name,
             'orbit': orbit,
