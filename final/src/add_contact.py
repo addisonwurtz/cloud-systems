@@ -7,6 +7,7 @@ from datetime import date, timedelta
 import json
 import google.generativeai as palm
 import os
+import requests
 
 class Add(MethodView):
     def get(self):
@@ -100,7 +101,7 @@ class Add(MethodView):
             task_info = {
                 "title": f"{title}",
                 #"due": f"{due_date}",
-                "notes": f"Conversation Prompt:\n{message}"
+                "notes": f"{message}"
             }
 
             
@@ -111,10 +112,11 @@ class Add(MethodView):
             return redirect(url_for('add_contact'))
 
     def conversation_starter(self, first_name, orbit):
-        body = {
-      "prompt": {"messages": [{"content":f"Please create conversation starter for me to send to my friend, {first_name}. We talk {orbit}, and the subject should be appropriate for that amount of time."}]},
-      "temperature": 0.5, 
-      "candidateCount": 1}
-        google = OAuth2Session(client_id, token=session['oauth_token'])
-        response = google.post(f'https://generativelanguage.googleapis.com/v1beta3/model=models/chat-bison-001:generateMessage?key={palm_api_key}')
-        return response
+      #  body = {
+      #"prompt": {"messages": [{"content":f"Please create conversation starter for me to send to my friend, {first_name}. We talk {orbit}, and the subject should be appropriate for that amount of time."}]},
+      #"temperature": 0.5, 
+      #"candidateCount": 1}
+        #google = OAuth2Session(client_id, token=session['oauth_token'])
+        #response = google.post(f'https://generativelanguage.googleapis.com/v1beta3/model=models/chat-bison-001:generateMessage').json()
+        response = requests.get('https://dog-api.kinduff.com/api/facts').json()
+        return response["body"]

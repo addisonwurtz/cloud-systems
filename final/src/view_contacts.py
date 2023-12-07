@@ -20,6 +20,23 @@ class ViewContacts(MethodView):
             contacts = [dict(user_email=row[0], first_name=row[1], last_name=row[2], orbit=row[3], contact_history=row[4], date_added=row[5]) for row in model.select() if row[0] == userinfo['email']]
             
             # TODO compare contacts to active tasks and create new task for each contact that does not have one
+            #tasks = None
+            #tasklists = google.get('https://tasks.googleapis.com/tasks/v1/users/@me/lists').json()
+            #items = tasklists['items']
+            #orbits_list = None
+            # Check for Orbits Task list
+            #for list in items:
+            #    if "Orbits" == list['title']:
+            #        orbits_list = list
+            #if orbits_list is not None:
+            #   tasks = google.get(f'https://tasks.googleapis.com/tasks/v1/lists/{orbits_list['id']}/tasks?showCompleted=False&showHidden=False').json()
+            #   for contact in contacts:
+            #       match = False
+            #       for task in tasks:
+            #           if (contact["first_name"] + ' ' + contact["last_name"]) == task["title"]:
+            #           pass
+            #        if match is False:
+            #            # TODO create new task
             
             return render_template('view_contacts.html', contacts=contacts, name=userinfo['name'], email=userinfo['email'], picture=userinfo['picture'])
         else:
@@ -30,6 +47,7 @@ class ViewContacts(MethodView):
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
                             'https://www.googleapis.com/auth/userinfo.profile ' +
                             'https://www.googleapis.com/auth/tasks'
+                            #'https://www.googleapis.com/auth/generative-language'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 
