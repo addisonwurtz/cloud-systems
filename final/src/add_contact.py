@@ -2,9 +2,11 @@ from flask import redirect, request, url_for, render_template, session
 from requests_oauthlib import OAuth2Session
 from flask.views import MethodView
 import gbmodel
-from oauth_config import client_id, authorization_base_url, redirect_callback
+from oauth_config import client_id, authorization_base_url, redirect_callback, palm_api_key
 from datetime import date, timedelta
 import json
+import google.generativeai as palm
+import os
 
 class Add(MethodView):
     def get(self):
@@ -22,6 +24,7 @@ class Add(MethodView):
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
                             'https://www.googleapis.com/auth/userinfo.profile ' +
                             'https://www.googleapis.com/auth/tasks'
+                            #'https://www.googleapis.com/auth/generative-language'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 
@@ -92,11 +95,12 @@ class Add(MethodView):
                delta = timedelta(days=0)
 
             title = str(request.form["first_name"]) + ' ' + str(request.form["last_name"])
+            message = self.conversation_starter(request.form["first_name"], request.form["orbit"])
             #due_date = str(date.today() + delta)
             task_info = {
                 "title": f"{title}",
                 #"due": f"{due_date}",
-                "notes": "Time to say hello!"
+                "notes": f"Conversation Prompt:\n{message}"
             }
 
             
@@ -105,3 +109,12 @@ class Add(MethodView):
             return redirect(url_for('index'))
         else:
             return redirect(url_for('add_contact'))
+
+    def conversation_starter(self, first_name, orbit):
+        body = {
+      "prompt": {"messages": [{"content":f"Please create conversation starter for me to send to my friend, {first_name}. We talk {orbit}, and the subject should be appropriate for that amount of time."}]},
+      "temperature": 0.5, 
+      "candidateCount": 1}
+        google = OAuth2Session(client_id, token=session['oauth_token'])
+        response = google.post(f'https://generativelanguage.googleapis.com/v1beta3/model=models/chat-bison-001:generateMessage?key={palm_api_key}')
+        return response

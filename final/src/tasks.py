@@ -44,6 +44,7 @@ class Tasks(MethodView):
                     scope = 'https://www.googleapis.com/auth/userinfo.email ' +                   
                             'https://www.googleapis.com/auth/userinfo.profile ' +
                             'https://www.googleapis.com/auth/tasks'
+                            #'https://www.googleapis.com/auth/generative-language'
             )
             authorization_url, state = google.authorization_url(authorization_base_url, prompt='login')
 
