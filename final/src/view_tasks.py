@@ -10,7 +10,7 @@ from flask.views import MethodView
 import gbmodel
 from oauth_config import client_id, authorization_base_url, redirect_callback
 
-class Tasks(MethodView):
+class ViewTasks(MethodView):
     def get(self):
         """Shows basic usage of the Tasks API.
         Prints the title and ID of the first 10 task lists.

@@ -6,7 +6,7 @@ import os
 from flask.views import MethodView
 from add_contact import Add
 from view_contacts import ViewContacts
-from tasks import Tasks
+from view_tasks import ViewTasks
 from index import Index
 from callback import Callback
 from logout import Logout
@@ -32,7 +32,7 @@ app.add_url_rule('/view_contacts',
                  methods=["GET"])
 
 app.add_url_rule('/view_tasks',
-                 view_func=Tasks.as_view('view_tasks'),
+                 view_func=ViewTasks.as_view('view_tasks'),
                  methods=["GET"])
 
 app.add_url_rule('/logout',
