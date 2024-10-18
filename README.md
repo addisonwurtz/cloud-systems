@@ -1,28 +1,18 @@
-# cloud-Wurtz-awurtz
+# cloud-systems
 
-## Name
-CS 530: Internet, Web, and Cloud Systems -- Labs
+## CS 530: Internet, Web, and Cloud Systems
 
 ## Description
-This repository contains my lab assignments for CS 530
+This repository contains my lab assignments and final project for CS 530.
 
 ---
 
-## Examples of Lists in Markdown:
+## Final Project
+My final project for this class was an application that uses Google's Task API to add tasks to the user's Google Calendar/Task List to remind them to contact people at user specified intervals (and provides extremely silly conversation prompts). 
+The applicaton was written in python, containerized using Docker, and hosted and managed using Google Cloud services. The focus of this project was to use cloud services and integrate with APIs, thusly, it is not my most aesthetically pleasing project. 
 
-### Ordered List: 
-1. This is the first item in my ordered list.
-2. This is the second item.
-3. This is the final item!
+### [Project](https://final-jpg37fqnga-uw.a.run.app)
 
 
-### Unordered List:
-- This is an unordered item.
-- And here is another.
-- And another!
-
-### Task List:
-- [x] This task is marked complete
-- [ ] This task isn't done yet
-
+### [Video Walkthrough](https://media.pdx.edu/media/t/1_0g3orlj5)
 
